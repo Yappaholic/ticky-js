@@ -30,7 +30,7 @@ const makeMove = (player: any, row: number, column: number) => {
 const playerOne = createPlayers("PlayerOne", 1)
 const playerTwo = createPlayers("PlayerTwo", 2)
 const board = makeBoard();
-let move = promp("enter row and column with a comma")
+let move = prompt("enter row and column with a comma")
 let mov = move.split(",");
 mov.map((a: string) => Number(a))
 console.log(mov);
