@@ -1,0 +1,46 @@
+* {
+  font-family: Helvetica, sans-serif;
+   }
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+.header {
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: grey;
+  font-size: 3rem;
+  font-weight: 200;
+  height: 10vh;
+  margin-bottom: 40px;
+}
+.board {
+  display: grid;
+  grid-template-rows: repeat(3, 150px);
+  grid-template-columns: repeat(3, 150px);
+  background-color: black;
+  gap: 5px;
+}
+.cell {
+  background-color: white;
+}
+.footer {
+  align-self: stretch;
+  background-color: grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 200;
+  height: 8vh;
+  font-style: italic;
+}
