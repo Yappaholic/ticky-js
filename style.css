@@ -32,6 +32,10 @@ body {
 }
 .cell {
   background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 100px;
 }
 .footer {
   align-self: stretch;
@@ -43,4 +47,8 @@ body {
   font-weight: 200;
   height: 8vh;
   font-style: italic;
+}
+.result {
+  text-align: center;
+
 }
