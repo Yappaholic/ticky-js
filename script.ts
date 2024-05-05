@@ -1,5 +1,8 @@
-const array: any = document.createElement("p")
-const body = document.querySelector("body")
+const container = document.querySelector(".container")
+const cells = document.querySelectorAll(".cell")
+const result = document.createElement("h2")
+result.classList.toggle("result");
+var isWon: boolean = undefined;
 const makeBoard = () => {
   let size = 3;
   let board: any = [];
@@ -15,6 +18,47 @@ const makeBoard = () => {
 const createPlayers = (playerName: string, token: "X" | "O") => {
   function getName() { return playerName; }
   function getToken() { return token; }
+  const checkWin = () => {
+    if (isWon == true) {
+      return undefined
+    }
+    let boardi = board.board;
+    for (let i = 0; i < boardi.length; i++) {
+      let rowSum = boardi[i].reduce((a: string, b: string) => a + b);
+      if (rowSum == "XXX") {
+        result.textContent = `${playerOne.playerName} wins!`
+        container.prepend(result)
+        isWon = true;
+      } else if (rowSum == "OOO") {
+        result.textContent = `${playerTwo.playerName} wins!`
+        container.prepend(result)
+        isWon = true;
+      }
+    }
+    for (let j = 0; j < boardi.length; j++) {
+      let colSum = (boardi[0][j]) + (boardi[1][j]) + (boardi[2][j])
+      if (colSum === "XXX") {
+        result.textContent = `${playerOne.playerName} wins!`
+        container.prepend(result)
+        isWon = true;
+      } else if (colSum === "OOO") {
+        result.textContent = `${playerTwo.playerName} wins!`
+        container.prepend(result)
+        isWon = true;
+      }
+    }
+    let rightDiagonal = (boardi[0][0]) + (boardi[1][1]) + (boardi[2][2]);
+    let leftDiagonal = (boardi[0][2]) + (boardi[1][1]) + (boardi[2][0]);
+    if (rightDiagonal === "XXX" || leftDiagonal === "XXX") {
+      result.textContent = `${playerOne.playerName} wins!`
+      container.prepend(result)
+      isWon = true;
+    } else if (rightDiagonal === "OOO" || leftDiagonal === "OOO") {
+      result.textContent = `${playerTwo.playerName} wins!`
+      container.prepend(result)
+      isWon = true;
+    }
+  }
   const makeMove = (row: number, column: number) => {
     const getRow = () => {
       let boardRow = board.getBoard();
@@ -22,19 +66,21 @@ const createPlayers = (playerName: string, token: "X" | "O") => {
     };
     let moveRow = getRow();
     moveRow[column - 1] = [token];
-
+    let divId = [row, column].join("-");
+    document.getElementById(divId).textContent = `${token}`
     board[row - 1] = moveRow;
-    array.textContent = board.board
     checkWin()
     return board.board;
   };
 
   return { playerName, token, getName, getToken, makeMove };
 };
+const playerOne = createPlayers("PlayerOne", "X");
+const playerTwo = createPlayers("PlayerTwo", "O");
+const board = makeBoard();
 let count = 1;
-const askMove = () => {
-  let ask = prompt("What's your move?")
-  let arr: any = ask?.split(",")
+const askMove = (id: string) => {
+  let arr: any = id.split("-")
   if (count % 2 === 1) {
     playerOne.makeMove(Number(arr[0]), Number(arr[1]));
     count++;
@@ -43,41 +89,12 @@ const askMove = () => {
     count++;
   }
 };
-const checkWin = (): boolean => {
-  let boardi = board.board;
-  for (let i = 0; i < boardi.length; i++) {
-    let rowSum = boardi[i].reduce((a: string, b: string) => a + b);
-    if (rowSum == "XXX") {
-      console.log(`${playerOne.playerName} win!`)
-      return true;
-    } else if (rowSum == "OOO") {
-      console.log(`${playerTwo.playerName} win!`)
-      return true;
+for (let i of cells) {
+  i.addEventListener("click", (e) => {
+    if (isWon == true) {
+      return undefined
     }
-  }
-  for (let j = 0; j < boardi.length; j++) {
-    let colSum = (boardi[0][j]) + (boardi[1][j]) + (boardi[2][j])
-    if (colSum === "XXX") {
-      console.log(`${playerOne.playerName} win!`)
-      return true;
-    } else if (colSum === "OOO") {
-      console.log(`${playerTwo.playerName} win!`)
-      return true;
-    }
-  }
-  let rightDiagonal = (boardi[0][0]) + (boardi[1][1]) + (boardi[2][2]);
-  let leftDiagonal = (boardi[0][2]) + (boardi[1][1]) + (boardi[2][1]);
-  if (rightDiagonal === "XXX" || leftDiagonal === "XXX") {
-    console.log(`${playerOne.playerName} win!`)
-    return true;
-  } else if (rightDiagonal === "OOO" || leftDiagonal === "OOO") {
-    console.log(`${playerTwo.playerName} win!`)
-    return true;
-  }
-  return false;
+    let move = i.id;
+    askMove(move);
+  });
 }
-const playerOne = createPlayers("PlayerOne", "X");
-const playerTwo = createPlayers("PlayerTwo", "O");
-const board = makeBoard();
-askMove()
-body?.appendChild(array)
